@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Detail Pembayaran{% endblock %}
+{% block content %}
+<div class="card p-4">
+    <h3>Pembayaran #{{ pembayaran.pk }}</h3>
+    <table class="table w-auto">
+        <tr><th>Penyewa</th><td>{{ pembayaran.penyewaan.nama_penyewa }}</td></tr>
+        <tr><th>Metode Pembayaran</th><td>{{ pembayaran.get_metode_pembayaran_display }}</td></tr>
+        <tr><th>Jumlah Pembayaran</th><td>Rp{{ pembayaran.jumlah_pembayaran|floatformat:0 }}</td></tr>
+        <tr><th>Tanggal Pembayaran</th><td>{{ pembayaran.tanggal_pembayaran }}</td></tr>
+        <tr><th>Status</th><td>{{ pembayaran.get_status_pembayaran_display }}</td></tr>
+    </table>
+    <a href="{% url 'pembayaran:list' %}" class="btn btn-outline-secondary">Kembali</a>
+</div>
+{% endblock %}

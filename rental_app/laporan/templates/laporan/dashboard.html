@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h3 class="mb-4">Dashboard</h3>
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card stat-card p-3 text-center">
+            <small class="text-muted">Alat Tersedia</small>
+            <h2 class="text-success">{{ jumlah_alat_tersedia }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-3 text-center">
+            <small class="text-muted">Alat Disewa</small>
+            <h2 class="text-primary">{{ jumlah_alat_disewa }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-3 text-center">
+            <small class="text-muted">Alat Rusak</small>
+            <h2 class="text-danger">{{ jumlah_alat_rusak }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-3 text-center">
+            <small class="text-muted">Pendapatan Bulan Ini</small>
+            <h2>Rp{{ pendapatan_bulan_ini|floatformat:0 }}</h2>
+        </div>
+    </div>
+</div>
+
+<div class="card p-3">
+    <h5>Penyewaan Terbaru</h5>
+    <table class="table">
+        <thead><tr><th>#</th><th>Penyewa</th><th>Alat</th><th>Tgl Sewa</th><th>Total</th></tr></thead>
+        <tbody>
+        {% for p in penyewaan_terbaru %}
+            <tr>
+                <td>{{ p.pk }}</td><td>{{ p.nama_penyewa }}</td><td>{{ p.alat.nama_alat }}</td>
+                <td>{{ p.tanggal_sewa }}</td><td>Rp{{ p.total_biaya|floatformat:0 }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5" class="text-center py-3">Belum ada penyewaan.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

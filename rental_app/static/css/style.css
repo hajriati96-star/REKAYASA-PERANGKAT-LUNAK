@@ -1,0 +1,18 @@
+body {
+    background-color: #f4f6f9;
+}
+.card {
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.stat-card h2 {
+    font-weight: 700;
+}
+.table thead {
+    background-color: #212529;
+    color: white;
+}
+.badge-tersedia { background-color: #198754; }
+.badge-disewa { background-color: #0d6efd; }
+.badge-rusak { background-color: #dc3545; }
+.badge-maintenance { background-color: #ffc107; color: #000; }

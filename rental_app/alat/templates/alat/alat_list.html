@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Data Alat{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Data Alat</h3>
+    {% if user.is_admin_role or user.is_superuser %}
+    <a href="{% url 'alat:tambah' %}" class="btn btn-dark">+ Tambah Alat</a>
+    {% endif %}
+</div>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-4">
+        <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Cari nama alat...">
+    </div>
+    <div class="col-md-3">
+        <select name="status" class="form-control">
+            <option value="">Semua status</option>
+            {% for value, label in status_choices %}
+            <option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-dark w-100">Filter</button>
+    </div>
+</form>
+
+<div class="card">
+<table class="table table-hover mb-0">
+    <thead>
+        <tr>
+            <th>Nama Alat</th><th>No. Inventaris</th><th>Jenis</th><th>Tahun</th>
+            <th>Warna</th><th>Harga/Hari</th><th>Status</th><th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for alat in daftar_alat %}
+        <tr>
+            <td>{{ alat.nama_alat }}</td>
+            <td>{{ alat.nomor_inventaris }}</td>
+            <td>{{ alat.get_jenis_alat_display }}</td>
+            <td>{{ alat.tahun_pembelian }}</td>
+            <td>{{ alat.warna }}</td>
+            <td>Rp{{ alat.harga_sewa_per_hari|floatformat:0 }}</td>
+            <td><span class="badge badge-{{ alat.status_alat }}">{{ alat.get_status_alat_display }}</span></td>
+            <td><a href="{% url 'alat:detail' alat.pk %}" class="btn btn-sm btn-outline-secondary">Detail</a></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="8" class="text-center py-4">Belum ada data alat.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% include 'pagination.html' %}
+{% endblock %}

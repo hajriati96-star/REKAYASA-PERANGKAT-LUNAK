@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Detail Pengembalian{% endblock %}
+{% block content %}
+<div class="card p-4">
+    <h3>Pengembalian #{{ pengembalian.pk }}</h3>
+    <table class="table w-auto">
+        <tr><th>Penyewa</th><td>{{ pengembalian.penyewaan.nama_penyewa }}</td></tr>
+        <tr><th>Alat</th><td>{{ pengembalian.penyewaan.alat.nama_alat }}</td></tr>
+        <tr><th>Tanggal Pengembalian</th><td>{{ pengembalian.tanggal_pengembalian }}</td></tr>
+        <tr><th>Kondisi Alat</th><td>{{ pengembalian.get_kondisi_alat_display }}</td></tr>
+        <tr><th>Keterlambatan</th><td>{{ pengembalian.keterlambatan }} hari</td></tr>
+        <tr><th>Denda Keterlambatan</th><td>Rp{{ pengembalian.denda_keterlambatan|floatformat:0 }}</td></tr>
+        <tr><th>Catatan Kerusakan</th><td>{{ pengembalian.catatan_kerusakan|default:"-" }}</td></tr>
+        <tr><th>Total Tagihan Akhir</th><td><strong>Rp{{ pengembalian.total_tagihan_akhir|floatformat:0 }}</strong></td></tr>
+    </table>
+    <a href="{% url 'pengembalian:list' %}" class="btn btn-outline-secondary">Kembali</a>
+</div>
+{% endblock %}

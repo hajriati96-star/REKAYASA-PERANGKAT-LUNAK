@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Data Pembayaran{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Data Pembayaran</h3>
+    <a href="{% url 'pembayaran:tambah' %}" class="btn btn-dark">+ Tambah Pembayaran</a>
+</div>
+<div class="card">
+<table class="table table-hover mb-0">
+    <thead>
+        <tr><th>#</th><th>Penyewa</th><th>Metode</th><th>Jumlah</th><th>Tanggal</th><th>Status</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for bayar in daftar_pembayaran %}
+        <tr>
+            <td>{{ bayar.pk }}</td>
+            <td>{{ bayar.penyewaan.nama_penyewa }}</td>
+            <td>{{ bayar.get_metode_pembayaran_display }}</td>
+            <td>Rp{{ bayar.jumlah_pembayaran|floatformat:0 }}</td>
+            <td>{{ bayar.tanggal_pembayaran }}</td>
+            <td>
+                {% if bayar.status_pembayaran == 'lunas' %}<span class="badge bg-success">Lunas</span>
+                {% elif bayar.status_pembayaran == 'pending' %}<span class="badge bg-warning text-dark">Pending</span>
+                {% else %}<span class="badge bg-danger">Gagal</span>{% endif %}
+            </td>
+            <td><a href="{% url 'pembayaran:detail' bayar.pk %}" class="btn btn-sm btn-outline-secondary">Detail</a></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" class="text-center py-4">Belum ada data pembayaran.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% include 'pagination.html' %}
+{% endblock %}

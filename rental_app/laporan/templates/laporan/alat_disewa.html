@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Laporan Alat Disewa{% endblock %}
+{% block content %}
+<h3 class="mb-3">Laporan: Data Alat Sedang Disewa</h3>
+<div class="card">
+<table class="table table-hover mb-0">
+    <thead>
+        <tr><th>Penyewa</th><th>Alat</th><th>Tgl Sewa</th><th>Tgl Kembali (Rencana)</th><th>Status Waktu</th></tr>
+    </thead>
+    <tbody>
+        {% for p in daftar_penyewaan_aktif %}
+        <tr>
+            <td>{{ p.nama_penyewa }}</td>
+            <td>{{ p.alat.nama_alat }} ({{ p.alat.nomor_inventaris }})</td>
+            <td>{{ p.tanggal_sewa }}</td>
+            <td>{{ p.tanggal_pengembalian_rencana }}</td>
+            <td>
+                {% if p.tanggal_pengembalian_rencana < hari_ini %}
+                    <span class="badge bg-danger">Terlambat</span>
+                {% else %}
+                    <span class="badge bg-primary">Berjalan</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="text-center py-4">Tidak ada alat yang sedang disewa saat ini.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<p class="mt-2 text-muted">Total: {{ daftar_penyewaan_aktif|length }} penyewaan berjalan.</p>
+{% endblock %}

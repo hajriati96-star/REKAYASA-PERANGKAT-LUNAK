@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Detail Alat{% endblock %}
+{% block content %}
+<div class="card p-4">
+    <h3>{{ alat.nama_alat }}</h3>
+    <span class="badge badge-{{ alat.status_alat }} mb-3" style="width:fit-content;">{{ alat.get_status_alat_display }}</span>
+    <table class="table w-auto">
+        <tr><th>Nomor Inventaris</th><td>{{ alat.nomor_inventaris }}</td></tr>
+        <tr><th>Jenis Alat</th><td>{{ alat.get_jenis_alat_display }}</td></tr>
+        <tr><th>Tahun Pembelian</th><td>{{ alat.tahun_pembelian }}</td></tr>
+        <tr><th>Warna</th><td>{{ alat.warna }}</td></tr>
+        <tr><th>Harga Sewa / Hari</th><td>Rp{{ alat.harga_sewa_per_hari|floatformat:0 }}</td></tr>
+    </table>
+    <div>
+        {% if user.is_admin_role or user.is_superuser %}
+        <a href="{% url 'alat:edit' alat.pk %}" class="btn btn-outline-dark">Edit</a>
+        <a href="{% url 'alat:hapus' alat.pk %}" class="btn btn-outline-danger">Hapus</a>
+        {% endif %}
+        <a href="{% url 'alat:list' %}" class="btn btn-outline-secondary">Kembali</a>
+    </div>
+</div>
+{% endblock %}

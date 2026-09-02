@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Laporan Pendapatan{% endblock %}
+{% block content %}
+<h3 class="mb-3">Laporan: Pendapatan Rental</h3>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-3">
+        <label class="form-label">Dari tanggal</label>
+        <input type="date" name="dari" value="{{ dari }}" class="form-control">
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">Sampai tanggal</label>
+        <input type="date" name="sampai" value="{{ sampai }}" class="form-control">
+    </div>
+    <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-outline-dark w-100">Filter</button>
+    </div>
+</form>
+
+<div class="card stat-card p-3 text-center mb-3" style="max-width: 300px;">
+    <small class="text-muted">Total Pendapatan (Lunas)</small>
+    <h2 class="text-success">Rp{{ total_pendapatan|floatformat:0 }}</h2>
+</div>
+
+<div class="card p-3 mb-3">
+    <h5>Pendapatan per Metode Pembayaran</h5>
+    <table class="table mb-0">
+        <thead><tr><th>Metode</th><th>Total</th></tr></thead>
+        <tbody>
+        {% for item in pendapatan_per_metode %}
+            <tr><td>{{ item.metode_pembayaran }}</td><td>Rp{{ item.total|floatformat:0 }}</td></tr>
+        {% empty %}
+            <tr><td colspan="2" class="text-center py-3">Belum ada data pembayaran lunas.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-3">
+    <h5>Rincian Pembayaran</h5>
+    <table class="table mb-0">
+        <thead><tr><th>Penyewa</th><th>Metode</th><th>Jumlah</th><th>Tanggal</th></tr></thead>
+        <tbody>
+        {% for bayar in daftar_pembayaran %}
+            <tr>
+                <td>{{ bayar.penyewaan.nama_penyewa }}</td>
+                <td>{{ bayar.get_metode_pembayaran_display }}</td>
+                <td>Rp{{ bayar.jumlah_pembayaran|floatformat:0 }}</td>
+                <td>{{ bayar.tanggal_pembayaran }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4" class="text-center py-3">Tidak ada data pada rentang tanggal ini.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

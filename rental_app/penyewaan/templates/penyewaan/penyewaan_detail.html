@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Detail Penyewaan{% endblock %}
+{% block content %}
+<div class="card p-4">
+    <h3>Penyewaan #{{ penyewaan.pk }}</h3>
+    <table class="table w-auto">
+        <tr><th>Nama Penyewa</th><td>{{ penyewaan.nama_penyewa }}</td></tr>
+        <tr><th>No. Telepon</th><td>{{ penyewaan.no_telepon_penyewa }}</td></tr>
+        <tr><th>Alat</th><td>{{ penyewaan.alat.nama_alat }} ({{ penyewaan.alat.nomor_inventaris }})</td></tr>
+        <tr><th>Tanggal Sewa</th><td>{{ penyewaan.tanggal_sewa }}</td></tr>
+        <tr><th>Tanggal Kembali (Rencana)</th><td>{{ penyewaan.tanggal_pengembalian_rencana }}</td></tr>
+        <tr><th>Lama Penyewaan</th><td>{{ penyewaan.lama_penyewaan }} hari</td></tr>
+        <tr><th>Total Biaya</th><td>Rp{{ penyewaan.total_biaya|floatformat:0 }}</td></tr>
+        <tr><th>Sudah Dibayar</th><td>Rp{{ penyewaan.sudah_dibayar|floatformat:0 }}</td></tr>
+        <tr><th>Sisa Tagihan</th><td>Rp{{ penyewaan.sisa_tagihan|floatformat:0 }}</td></tr>
+    </table>
+
+    {% if penyewaan.sudah_dikembalikan %}
+    <div class="alert alert-secondary">
+        Alat sudah dikembalikan pada {{ penyewaan.pengembalian.tanggal_pengembalian }}
+        (Kondisi: {{ penyewaan.pengembalian.get_kondisi_alat_display }})
+    </div>
+    {% endif %}
+
+    <div>
+        <a href="{% url 'penyewaan:list' %}" class="btn btn-outline-secondary">Kembali</a>
+        {% if not penyewaan.sudah_dikembalikan %}
+        <a href="{% url 'pengembalian:tambah' %}" class="btn btn-outline-dark">Catat Pengembalian</a>
+        {% endif %}
+        <a href="{% url 'pembayaran:tambah' %}" class="btn btn-outline-dark">Tambah Pembayaran</a>
+    </div>
+</div>
+{% endblock %}
